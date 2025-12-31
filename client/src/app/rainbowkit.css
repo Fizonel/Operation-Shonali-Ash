@@ -1,0 +1,176 @@
+/* RainbowKit Premium Styles - Blockchain Theme */
+[data-rk] {
+  --rk-colors-accentColor: #7c3aed;
+  --rk-colors-accentColorForeground: white;
+  --rk-fonts-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --rk-radii-connectButton: 16px;
+  --rk-radii-modal: 24px;
+  --rk-radii-modalMobile: 20px;
+}
+
+/* Premium Connect Button */
+[data-rk] button[data-testid="rk-connect-button"] {
+  background: linear-gradient(135deg, #7c3aed 0%, #6366f1 50%, #8b5cf6 100%);
+  color: white;
+  padding: 14px 32px;
+  border-radius: 16px;
+  font-weight: 700;
+  font-size: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 4px 16px rgba(124, 58, 237, 0.3),
+    0 2px 8px rgba(124, 58, 237, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+[data-rk] button[data-testid="rk-connect-button"]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s;
+}
+
+[data-rk] button[data-testid="rk-connect-button"]:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 8px 24px rgba(124, 58, 237, 0.4),
+    0 4px 16px rgba(124, 58, 237, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+[data-rk] button[data-testid="rk-connect-button"]:hover::before {
+  left: 100%;
+}
+
+[data-rk] button[data-testid="rk-connect-button"]:active {
+  transform: translateY(-1px);
+  box-shadow: 
+    0 4px 12px rgba(124, 58, 237, 0.4),
+    0 2px 8px rgba(124, 58, 237, 0.2);
+}
+
+/* Premium Account Button (Connected State) */
+[data-rk] button[data-testid="rk-account-button"] {
+  background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 16px;
+  font-weight: 600;
+  font-size: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 2px 12px rgba(124, 58, 237, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+[data-rk] button[data-testid="rk-account-button"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 20px rgba(124, 58, 237, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Premium Modal Styling */
+[data-rk] [role="dialog"] {
+  border-radius: 24px !important;
+  border: 2px solid rgba(124, 58, 237, 0.1);
+  box-shadow: 
+    0 24px 48px rgba(0, 0, 0, 0.15),
+    0 12px 24px rgba(124, 58, 237, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.98) 0%, 
+    rgba(249, 250, 251, 0.98) 100%);
+}
+
+/* Modal Header */
+[data-rk] [data-testid="rk-wallet-option"] {
+  border-radius: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.9) 0%, 
+    rgba(249, 250, 251, 0.9) 100%);
+}
+
+[data-rk] [data-testid="rk-wallet-option"]:hover {
+  transform: translateY(-2px);
+  border-color: rgba(124, 58, 237, 0.3);
+  box-shadow: 
+    0 8px 16px rgba(124, 58, 237, 0.15),
+    0 4px 8px rgba(124, 58, 237, 0.1);
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 1) 0%, 
+    rgba(249, 250, 251, 1) 100%);
+}
+
+/* Chain Switch Button */
+[data-rk] button[aria-label*="Switch"] {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  border-radius: 12px;
+  padding: 10px 18px;
+  font-weight: 600;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+}
+
+[data-rk] button[aria-label*="Switch"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+/* Premium Typography */
+[data-rk] h1, [data-rk] h2 {
+  background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
+}
+
+/* Backdrop Blur */
+[data-rk] [data-testid="rk-overlay"] {
+  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* Status Indicators */
+[data-rk] [data-testid="rk-chain-button"] {
+  border-radius: 12px;
+  padding: 8px 16px;
+  font-weight: 600;
+  transition: all 0.3s;
+  background: rgba(124, 58, 237, 0.1);
+  border: 2px solid rgba(124, 58, 237, 0.2);
+}
+
+[data-rk] [data-testid="rk-chain-button"]:hover {
+  background: rgba(124, 58, 237, 0.15);
+  border-color: rgba(124, 58, 237, 0.4);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(124, 58, 237, 0.2);
+}
+
+/* Balance Display */
+[data-rk] [data-testid="rk-balance"] {
+  font-weight: 700;
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+

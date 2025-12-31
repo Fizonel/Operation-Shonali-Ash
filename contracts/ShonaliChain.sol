@@ -32,11 +32,19 @@ contract ShonaliChain is Ownable {
         uint256 timestamp;
     }
     
+    struct Movement {
+        address handler;
+        string location;
+        uint256 timestamp;
+        Role role;
+    }
+    
     // State Variables
     mapping(address => User) public users;
     mapping(uint256 => Batch) public batches;
     mapping(uint256 => address) public batchEscrow; // Holds buyer's address during transaction
     mapping(uint256 => uint256) public escrowAmount; // Holds payment amount
+    mapping(uint256 => Movement[]) public batchMovements; // Track all movements of a batch
     
     uint256 public batchCounter;
     
@@ -122,6 +130,14 @@ contract ShonaliChain is Ownable {
             timestamp: block.timestamp
         });
         
+        // Record initial movement
+        batchMovements[newBatchId].push(Movement({
+            handler: msg.sender,
+            location: users[msg.sender].location,
+            timestamp: block.timestamp,
+            role: users[msg.sender].role
+        }));
+        
         batchCounter++;
         
         emit HarvestMinted(newBatchId, msg.sender, _cropType, _quantity, block.timestamp);
@@ -144,6 +160,15 @@ contract ShonaliChain is Ownable {
         
         address previousHandler = batches[_batchId].currentHandler;
         batches[_batchId].currentHandler = _newHandler;
+        batches[_batchId].timestamp = block.timestamp; // Update timestamp for hoarding check
+        
+        // Record movement
+        batchMovements[_batchId].push(Movement({
+            handler: _newHandler,
+            location: users[_newHandler].location,
+            timestamp: block.timestamp,
+            role: users[_newHandler].role
+        }));
         
         emit OwnershipTransferred(_batchId, previousHandler, _newHandler);
     }
@@ -187,6 +212,15 @@ contract ShonaliChain is Ownable {
         // Update batch state
         batches[_batchId].currentHandler = msg.sender;
         batches[_batchId].isSold = true;
+        batches[_batchId].timestamp = block.timestamp;
+        
+        // Record final movement
+        batchMovements[_batchId].push(Movement({
+            handler: msg.sender,
+            location: users[msg.sender].location,
+            timestamp: block.timestamp,
+            role: users[msg.sender].role
+        }));
         
         // Clear escrow
         batchEscrow[_batchId] = address(0);
@@ -279,5 +313,50 @@ contract ShonaliChain is Ownable {
             user.reputationScore,
             user.isRegistered
         );
+    }
+    
+    /**
+     * @dev Check if a batch has been held by current handler for too long (anti-hoarding)
+     * @param _batchId ID of the batch to check
+     * @return isHoarding True if batch has been with current handler for more than 3 days
+     */
+    function checkHoardingStatus(uint256 _batchId) 
+        external 
+        view 
+        batchExists(_batchId) 
+        returns (bool isHoarding) 
+    {
+        uint256 timeHeld = block.timestamp - batches[_batchId].timestamp;
+        uint256 hoardingThreshold = 3 days; // 259200 seconds (3 * 24 * 60 * 60)
+        
+        return timeHeld > hoardingThreshold;
+    }
+    
+    /**
+     * @dev Get all movements for a batch (for traceability)
+     * @param _batchId ID of the batch
+     * @return movements Array of all movements
+     */
+    function getBatchMovements(uint256 _batchId)
+        external
+        view
+        batchExists(_batchId)
+        returns (Movement[] memory)
+    {
+        return batchMovements[_batchId];
+    }
+    
+    /**
+     * @dev Get the count of movements for a batch
+     * @param _batchId ID of the batch
+     * @return count Number of movements
+     */
+    function getMovementCount(uint256 _batchId)
+        external
+        view
+        batchExists(_batchId)
+        returns (uint256)
+    {
+        return batchMovements[_batchId].length;
     }
 }
